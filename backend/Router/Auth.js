@@ -4,6 +4,7 @@ const user = require('../model/Auth');
 const bcrypt = require('bcryptjs');
 const { body, validationResult } = require('express-validator');
 var jwt = require('jsonwebtoken');
+const fetchData = require('../middleware/fetchData');
 
 const JWT_secret = "iamironman";
 
@@ -65,7 +66,7 @@ body('password', 'please enter atleast 4 length password').isLength({ min: 1 })]
 
   try {
     const { email, password } = req.body; // user se email ans password liye
-    const UserData = await user.findOne({ email }); 
+    const UserData = await user.findOne({ email });
     if (!UserData) {
       res.status(400).json({ error: "please enter valid login credentials" });
     }
@@ -82,7 +83,7 @@ body('password', 'please enter atleast 4 length password').isLength({ min: 1 })]
 
     var authToken = jwt.sign(data, JWT_secret); // generate token
 
-    res.send({authToken});
+    res.send({ authToken });
 
     console.log(authToken);
 
@@ -92,5 +93,17 @@ body('password', 'please enter atleast 4 length password').isLength({ min: 1 })]
   }
 
 });
+
+// router 3 :  ye "api/auth/userdata" page ka work hai jaha user login karega after login
+router.post('/userdata', fetchData, async (req, res) => {
+  try {
+    const id = req.UserData.id;
+    const UserData = await user.findById(id).select("-password");
+    res.json(UserData);
+  } catch (error) {
+    console.log(error)
+    res.json({ error: error.message });
+  }
+})
 
 module.exports = router;
