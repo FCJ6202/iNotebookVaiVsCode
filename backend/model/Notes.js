@@ -1,7 +1,10 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const NoteSchema = new Schema({
+    user : {
+        type : String,
+    },
     title : {
         type : String,
         required : true,
@@ -11,11 +14,16 @@ const NoteSchema = new Schema({
         type : String,
         required : true,
     },
+    tag : {
+        type : String
+    },
 
     date : {
         type : Date,
         default : Date.now
-    }
+    },
+
+
 
 });
 
