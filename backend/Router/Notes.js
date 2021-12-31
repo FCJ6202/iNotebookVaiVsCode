@@ -1,5 +1,5 @@
 const express = require('express');
-const fetchData = require('../middleware/fetchData');
+const fetchData = require('../middleware/fetchData'); // req.UserData.id = user ka id hai
 const router = express.Router();
 const Note = require('../model/Notes');
 const { body, validationResult } = require('express-validator');
@@ -41,6 +41,64 @@ router.get('/fetchallnotes', fetchData, async (req, res) => {
         console.log(error)
         res.json({ error: error.message });
     }
+})
+
+// Router 3 : update the notes after login
+router.put('/updatenotes/:id', fetchData, async (req, res) => { // put for update the database
+    console.log(req.params.id);
+    try {
+
+        let { title, description, tag } = req.body;
+
+
+        const newNote = {}; // new update note in that newNote 
+        if (title) { newNote.title = title };
+        if (description) { newNote.description = description };
+        if (tag) { newNote.tag = tag };
+
+        let note = await Note.findById(req.params.id);
+        if (!note) {  // if note are not in database means kahi koi delete kr diya aur usse fetch krne ka kosis kr ra
+            return res.status(401).send("Not allowed");
+        }
+        if (note.user != req.UserData.id) { // if one user try to fetch another user data
+            return res.status(401).send("Not allowed");
+        }
+        if (note.id != req.params.id) { // if user try to different notes
+            return res.status(401).send("Not allowed");
+        }
+        note = await Note.findByIdAndUpdate(req.params.id, newNote); // this function find the notes and update it
+        res.json(note);
+
+    } catch (error) {
+        console.log(error)
+        res.json({ error: error.message });
+    }
+
+})
+
+// Router 4 : delete the notes after login
+router.put('/deletenotes/:id', fetchData, async (req, res) => {
+    console.log(req.params.id);
+    try {
+
+        let note = await Note.findById(req.params.id);
+        if (!note) {
+            return res.status(401).send("Not allowed 1"); // same as above 
+        }
+        if (note.user != req.UserData.id) {
+            return res.status(401).send("Not allowed 2"); // same as above 
+        }
+        if (note.id != req.params.id) {
+            return res.status(401).send("Not allowed 3"); // same as above 
+        }
+        await Note.findByIdAndDelete(req.params.id); // for delete the notes
+        res.json("Success : delete the note" + note);
+
+    } catch (error) {
+        console.log(error)
+        res.json({ error: error.message });
+    }
+
 })
 
 
