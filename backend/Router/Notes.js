@@ -58,7 +58,7 @@ router.put('/updatenotes/:id', fetchData, async (req, res) => { // put for updat
 
         let note = await Note.findById(req.params.id);
         if (!note) {  // if note are not in database means kahi koi delete kr diya aur usse fetch krne ka kosis kr ra
-            return res.status(401).send("Not allowed");
+            return res.status(401).send("Not found");
         }
         if (note.user != req.UserData.id) { // if one user try to fetch another user data
             return res.status(401).send("Not allowed");
@@ -77,19 +77,19 @@ router.put('/updatenotes/:id', fetchData, async (req, res) => { // put for updat
 })
 
 // Router 4 : delete the notes after login
-router.put('/deletenotes/:id', fetchData, async (req, res) => {
+router.delete('/deletenotes/:id', fetchData, async (req, res) => {
     console.log(req.params.id);
     try {
 
         let note = await Note.findById(req.params.id);
         if (!note) {
-            return res.status(401).send("Not allowed 1"); // same as above 
+            return res.status(401).send("Not found"); // same as above 
         }
         if (note.user != req.UserData.id) {
-            return res.status(401).send("Not allowed 2"); // same as above 
+            return res.status(401).send("Not allowed"); // same as above 
         }
         if (note.id != req.params.id) {
-            return res.status(401).send("Not allowed 3"); // same as above 
+            return res.status(401).send("Not allowed"); // same as above 
         }
         await Note.findByIdAndDelete(req.params.id); // for delete the notes
         res.json("Success : delete the note" + note);
