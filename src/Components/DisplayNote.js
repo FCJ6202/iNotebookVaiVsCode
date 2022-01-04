@@ -1,9 +1,12 @@
-import React, { useContext } from 'react'
+import React, { useContext,useEffect } from 'react'
 import NoteContext from '../Context/NoteContext';
 import NoteItem from './NoteItem';
 
 export default function DisplayNote() {
     const Note = useContext(NoteContext);
+    useEffect( async () => {
+        await Note.FetchData();
+    }, [])
     return (
         <div className="container">
             <h2>Your Notes</h2>
