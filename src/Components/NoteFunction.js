@@ -13,7 +13,6 @@ export default function AddNote() {
         setNote({...Note,[e.target.id]:e.target.value});
     }
     const HandleSubmit = (e) => {
-        e.preventDefault();
         context.AddNote(Note.title,Note.desc,Note.tag);
     }
 
@@ -23,11 +22,11 @@ export default function AddNote() {
             <form>
                 <div className="mb-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Title</label>
-                    <input type="text" className="form-control"  onChange={Handle} id="title"  aria-describedby="emailHelp" />
+                    <input type="text" className="form-control" required onChange={Handle} id="title"  aria-describedby="emailHelp" />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="exampleInputPassword1" className="form-label">Description</label>
-                    <textarea type="text" className="form-control" rows={4} onChange={Handle} id="desc" />
+                    <textarea type="text" className="form-control" required rows={4} onChange={Handle} id="desc" />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="exampleInputPassword1" className="form-label">Tag</label>
@@ -37,7 +36,7 @@ export default function AddNote() {
                     <input type="checkbox" className="form-check-input" id="exampleCheck1" />
                     <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
                 </div> */}
-                <button type="submit" className="btn btn-primary" onClick={HandleSubmit} >Add Note</button>
+                <button disabled={Note.title === "" || Note.desc === ""} type="submit" className="btn btn-primary" onClick={HandleSubmit} >Add Note</button>
             </form>
         </div>
     )
