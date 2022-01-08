@@ -58,9 +58,28 @@ export default function NoteState(props) {
     console.log(json);
     await FetchData();
   }
+
+  // EditNote
+  const EditNote = async (id,title,description,tag) => {
+    // var filterNote = note.filter((n) => n._id !== id);
+    console.log(id);
+    const url = `${host}/u/notes/updatenotes/` + id;
+    const response = await fetch(url, {
+      method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        'Content-Type': 'application/json',
+        'auth-token': authToken,
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify({title,description,tag}) // body data type must match "Content-Type" header
+    });
+    const json = await response.json();
+    console.log(json);
+    await FetchData();
+  }
   return (
     <div>
-      <NoteContext.Provider value={{ note, AddNote, DeleteNote, FetchData }}>
+      <NoteContext.Provider value={{ note, AddNote, DeleteNote, FetchData,EditNote }}>
         {props.children}
       </NoteContext.Provider>
     </div>

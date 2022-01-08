@@ -16,7 +16,7 @@ export default function AddNote() {
         context.AddNote(Note.title,Note.desc,Note.tag);
     }
 
-    return (
+    return(
         <div className="container my-3">
             <h1>Add Note</h1>
             <form>
