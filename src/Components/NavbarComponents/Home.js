@@ -1,31 +1,40 @@
-import React, { useRef,useState,useContext } from 'react'
+import React, { useRef, useState, useContext } from 'react'
 import NoteFunction from '../NoteFunction'
 import DisplayNote from '../DisplayNote'
 import NoteContext from '../../Context/NoteContext';
+import { Seen } from '../Seen';
 
 
 
 export default function Home() {
     const ref = useRef(null);
+    const close = useRef(null);
     const context = useContext(NoteContext);
+    const seenRef = useRef(null);
 
     // yaha pari ... ka use krke tino ka ek sath bhi change kr skte hai
     const [Note, setNote] = useState({
-        title : "",
-        desc : "",
-        tag : "",
-        id : ""
+        title: "",
+        desc: "",
+        tag: "",
+        id: ""
     })
-    const Handle = (e) =>{
-        setNote({...Note,[e.target.id]:e.target.value});
+    const Handle = (e) => {
+        setNote({ ...Note, [e.target.id]: e.target.value });
     }
     const HandleSubmit = (e) => {
-        context.EditNote(Note.id,Note.title,Note.desc,Note.tag);
+        context.EditNote(Note.id, Note.title, Note.desc, Note.tag);
+        close.current.click();
     }
 
-    const ModalHandleEdit = (id,title,desc,tag) => {
-        setNote({title,desc,tag,id});
+    const ModalHandleEdit = (id, title, desc, tag) => {
+        setNote({ title, desc, tag, id });
         ref.current.click();
+    }
+
+    const HandleSeen = (id, title, desc, tag) => {
+        setNote({ title, desc, tag, id });
+        seenRef.current.click();
     }
 
     return (
@@ -46,7 +55,7 @@ export default function Home() {
                         <div className="modal-body">
                             <div className="mb-3">
                                 <label htmlFor="exampleInputEmail1" className="form-label">Title</label>
-                                <input type="text" className="form-control" required value = {Note.title} onChange={Handle} id="title" aria-describedby="emailHelp" />
+                                <input type="text" className="form-control" required value={Note.title} onChange={Handle} id="title" aria-describedby="emailHelp" />
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="exampleInputPassword1" className="form-label">Description</label>
@@ -54,18 +63,19 @@ export default function Home() {
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="exampleInputPassword1" className="form-label">Tag</label>
-                                <input type="text" className="form-control" onChange={Handle} value = {Note.tag} id="tag" />
+                                <input type="text" className="form-control" onChange={Handle} value={Note.tag} id="tag" />
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" ref={close} className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" className="btn btn-primary" onClick={HandleSubmit} >Save changes</button>
                         </div>
                     </div>
                 </div>
             </div>
+            <Seen seenRef = {seenRef} title = {Note.title} description = {Note.desc} tag = {Note.tag} />
             <NoteFunction />
-            <DisplayNote ModalHandleEdit={ModalHandleEdit} />
+            <DisplayNote ModalHandleEdit={ModalHandleEdit} ModalHandleSeen={HandleSeen} />
         </>
     )
 }

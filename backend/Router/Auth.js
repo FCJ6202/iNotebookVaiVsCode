@@ -7,6 +7,7 @@ var jwt = require('jsonwebtoken');
 const fetchData = require('../middleware/fetchData');
 
 const JWT_secret = "iamironman";
+let success = false;
 
 
 
@@ -16,12 +17,13 @@ router.post('/create', [body('email', 'please input valid email id').isEmail(),
 body('name', 'please input valid name').isLength({ min: 3 }),
 body('password', 'please enter atleast 4 length password').isLength({ min: 4 })], async (req, res) => {
   console.log(req.body);
+  
 
   // checking validation of request(req) which was send by user
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log("error");
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({ success,errors: errors.array() });
   }
 
   try {
@@ -36,8 +38,6 @@ body('password', 'please enter atleast 4 length password').isLength({ min: 4 })]
       gender: req.body.gender
     })
 
-    res.json(UserData);
-
     data = {
       User: {
         id: UserData.id
@@ -45,11 +45,11 @@ body('password', 'please enter atleast 4 length password').isLength({ min: 4 })]
     }
 
     var token = jwt.sign(data, JWT_secret);
-
+    res.json({success : true,token});
     console.log(token);
   } catch (error) {
     console.log(error)
-    res.json({ error: error.message });
+    res.json({ success,error: error.message });
   }
 })
 
@@ -61,18 +61,18 @@ body('password', 'please enter atleast 4 length password').isLength({ min: 1 })]
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log("error");
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({ success,errors: errors.array() });
   }
 
   try {
     const { email, password } = req.body; // user se email ans password liye
     const UserData = await user.findOne({ email });
     if (!UserData) {
-      res.status(400).json({ error: "please enter valid login credentials" });
+      res.status(400).json({ success,error: "please enter valid login credentials" });
     }
     const passwordCompare = await bcrypt.compare(password, UserData.password);
     if (!passwordCompare) {
-      res.status(400).json({ error: "please enter valid login credentials" });
+      res.status(400).json({ success,error: "please enter valid login credentials" });
     }
 
     data = {
@@ -83,13 +83,13 @@ body('password', 'please enter atleast 4 length password').isLength({ min: 1 })]
 
     var authToken = jwt.sign(data, JWT_secret); // generate token
 
-    res.send({ authToken });
+    res.send({ success : true, authToken });
 
     console.log(authToken);
 
   } catch (error) {
     console.log(error)
-    res.json({ error: error.message });
+    res.json({ success,error: error.message });
   }
 
 });
@@ -99,10 +99,10 @@ router.post('/userdata', fetchData, async (req, res) => {
   try {
     const id = req.UserData.id;
     const UserData = await user.findById(id).select("-password");
-    res.json(UserData);
+    res.json({success,UserData});
   } catch (error) {
     console.log(error)
-    res.json({ error: error.message });
+    res.json({success, error: error.message });
   }
 })
 

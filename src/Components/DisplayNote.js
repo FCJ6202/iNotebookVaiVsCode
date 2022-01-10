@@ -14,7 +14,7 @@ export default function DisplayNote(props) {
                 {Note.note.map((note) => {
                     return (
                         <div className="col-md-4 my-3" key={note._id}>
-                            <NoteItem title={note.title} id = {note._id} description={note.description} tag = {note.tag} ModalHandleEdit = {props.ModalHandleEdit} />
+                            <NoteItem title={note.title} id = {note._id} description={note.description} tag = {note.tag} ModalHandleEdit = {props.ModalHandleEdit} ModalHandleSeen = {props.ModalHandleSeen} />
                         </div>
                     )
                 })}
