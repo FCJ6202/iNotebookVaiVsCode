@@ -16,11 +16,10 @@ export const AuthState = (props) => {
         const json = await response.json();
         if(json.success){
             console.log(json);
-            localStorage.setItem("token",json.token);
         }else{
             alert("please enter valid credentials");
         }
-        return json.success;
+        return json;
     }
 
     // Signup
@@ -39,11 +38,10 @@ export const AuthState = (props) => {
         const json = await response.json();
         if(json.success){
             console.log(json);
-            localStorage.setItem("token",json.token);
         }else{
             alert("please enter valid credentials");
         }
-        return json.success;
+        return json;
     }
 
 

@@ -12,6 +12,7 @@ import Alert from './Components/Alert';
 import { Login } from './Components/NavbarComponents/Login';
 import { Signup } from './Components/NavbarComponents/Signup';
 import { AuthState } from './Context/AuthState';
+import { Logout } from './Components/NavbarComponents/Logout';
 
 export default function App() {
   return (
@@ -25,6 +26,10 @@ export default function App() {
               <Route exact path="/" element={<Home />} />
               <Route exact path="/home" element={<Home />} />
               <Route exact path="/about" element={<About />} />
+              {/* {(localStorage.getItem("token")!==null)?
+              <Route exact path="/logout" element={<Logout/>}/>:
+              <><Route exact path="/login" element={<Login />} />
+              <Route exact path="/signup" element={<Signup />} /></>} */}
               <Route exact path="/login" element={<Login />} />
               <Route exact path="/signup" element={<Signup />} />
             </Routes>

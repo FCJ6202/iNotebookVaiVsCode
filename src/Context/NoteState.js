@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import NoteContext from './NoteContext'
 const host = 'http://localhost:4000';
-const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyIjp7ImlkIjoiNjFjZDVmNjY2NTE0OTdkOTAxYWE2NjE5In0sImlhdCI6MTY0MDkyNDIyM30.9Aj-HKJyNIFLIqxsfYuoNBAlgUxQ7NA5jCR56883aEU'
+//'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyIjp7ImlkIjoiNjFjZDVmNjY2NTE0OTdkOTAxYWE2NjE5In0sImlhdCI6MTY0MDkyNDIyM30.9Aj-HKJyNIFLIqxsfYuoNBAlgUxQ7NA5jCR56883aEU'
 
 export default function NoteState(props) {
   const notes = [];
@@ -9,6 +9,7 @@ export default function NoteState(props) {
 
 
   const FetchData = async () => {
+    const authToken = localStorage.getItem("token");
     const url = `${host}/u/notes/fetchallnotes`;
     const response = await fetch(url, {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
@@ -25,7 +26,8 @@ export default function NoteState(props) {
 
   // Add notes
   const AddNote = async (title, description, tag) => {
-
+    const authToken = localStorage.getItem("token");
+    console.log("Add" + authToken);
     const url = `${host}/u/notes/createnote`;
     const response = await fetch(url, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -42,6 +44,7 @@ export default function NoteState(props) {
   }
 
   const DeleteNote = async (id) => {
+    const authToken = localStorage.getItem("token");
     // var filterNote = note.filter((n) => n._id !== id);
     console.log(id);
     const url = `${host}/u/notes/deletenotes/` + id;
@@ -61,6 +64,7 @@ export default function NoteState(props) {
 
   // EditNote
   const EditNote = async (id,title,description,tag) => {
+    const authToken = localStorage.getItem("token");
     // var filterNote = note.filter((n) => n._id !== id);
     console.log(id);
     const url = `${host}/u/notes/updatenotes/` + id;

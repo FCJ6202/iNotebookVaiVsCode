@@ -54,8 +54,10 @@ export const Signup = () => {
         } else {
             //console.log(credential);
             const msg = await auth.HandleSignup(credential);
+            console.log(msg.success);
             Default();
-            if(msg){
+            if (msg.success) {
+                localStorage.setItem("token", msg.token);
                 Navigate("/");
             }
         }

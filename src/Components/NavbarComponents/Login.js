@@ -25,7 +25,9 @@ export const Login = () => {
         e.preventDefault();
         const msg = await auth.HandleLogin(credential.email, credential.password);
         Default();
-        if(msg){
+        console.log(msg.success);
+        if(msg.success){
+            localStorage.setItem("token",msg.authToken);
             navigate("/");
         }
     }

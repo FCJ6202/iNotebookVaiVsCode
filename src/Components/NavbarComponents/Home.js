@@ -3,6 +3,7 @@ import NoteFunction from '../NoteFunction'
 import DisplayNote from '../DisplayNote'
 import NoteContext from '../../Context/NoteContext';
 import { Seen } from '../Seen';
+import { Login } from './Login';
 
 
 
@@ -74,8 +75,10 @@ export default function Home() {
                 </div>
             </div>
             <Seen seenRef = {seenRef} title = {Note.title} description = {Note.desc} tag = {Note.tag} />
+            {(localStorage.getItem("token") === null)?<Login/>:
+            <>
             <NoteFunction />
-            <DisplayNote ModalHandleEdit={ModalHandleEdit} ModalHandleSeen={HandleSeen} />
+            <DisplayNote ModalHandleEdit={ModalHandleEdit} ModalHandleSeen={HandleSeen}/></>}
         </>
     )
 }

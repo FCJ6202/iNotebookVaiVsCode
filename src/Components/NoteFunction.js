@@ -13,6 +13,7 @@ export default function AddNote() {
         setNote({...Note,[e.target.id]:e.target.value});
     }
     const HandleSubmit = (e) => {
+        //e.preventDefault();
         context.AddNote(Note.title,Note.desc,Note.tag);
     }
 
