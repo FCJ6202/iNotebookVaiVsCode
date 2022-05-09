@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
-const mongoUrl = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false"
+const mongoUrl = "mongodb+srv://FCJ1234:03kL405cRSOaCQwb@cluster0.zwfl2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
 
 
 const connectToDatabase = () =>{
-    mongoose.connect(mongoUrl,() =>{
+    mongoose.connect(mongoUrl,{
+        useNewUrlParser : true,
+        useUnifiedTopology : true
+    },() =>{
         console.log("database connected successfully");
     })
 }

@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const { body, validationResult } = require('express-validator');
 var jwt = require('jsonwebtoken');
 const fetchData = require('../middleware/fetchData');
+const upload = require('../middleware/upload');
 
 const JWT_secret = "iamironman";
 let success = false;
@@ -13,7 +14,7 @@ let success = false;
 
 
 // router 1 :  ye "api/auth/create" page ka work hai jaha user register karega
-router.post('/create', [body('email', 'please input valid email id').isEmail(),
+router.post('/create', upload.single('photo'), [body('email', 'please input valid email id').isEmail(),
 body('name', 'please input valid name').isLength({ min: 3 }),
 body('password', 'please enter atleast 4 length password').isLength({ min: 4 })], async (req, res) => {
   console.log(req.body);
@@ -31,12 +32,20 @@ body('password', 'please enter atleast 4 length password').isLength({ min: 4 })]
     let salt = bcrypt.genSaltSync(10);
     let hash = bcrypt.hashSync(req.body.password, salt); // hash will contain encrpt password
 
-    const UserData = await user.create({
+    const UserData = await new user({
       name: req.body.name,
       email: req.body.email,
       password: hash,
       gender: req.body.gender
     })
+
+    //console.log(UserData)
+
+    if(req.file){
+      UserData.photo = req.file.path;
+    }
+
+    UserData.save();
 
     data = {
       User: {

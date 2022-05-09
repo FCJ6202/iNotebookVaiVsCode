@@ -19,6 +19,7 @@ app.get('/', (req, res) => {
 
 app.use('/u/auth',require('./Router/Auth'));
 app.use('/u/notes',require('./Router/Notes'));
+app.use('/uploads',express.static('uploads'));
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
