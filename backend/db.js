@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const mongoUrl = "mongodb+srv://FCJ1234:03kL405cRSOaCQwb@cluster0.zwfl2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+const mongoUrl = "mongodb+srv://FCJ1234:kY7DydCrlFfo7OaI@cluster0.zwfl2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
 
 
