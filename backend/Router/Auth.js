@@ -17,7 +17,8 @@ let success = false;
 router.post('/create', upload.single('photo'), [body('email', 'please input valid email id').isEmail(),
 body('name', 'please input valid name').isLength({ min: 3 }),
 body('password', 'please enter atleast 4 length password').isLength({ min: 4 })], async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
+  // req.body contain all the user input data.
   
 
   // checking validation of request(req) which was send by user
@@ -55,7 +56,7 @@ body('password', 'please enter atleast 4 length password').isLength({ min: 4 })]
 
     var token = jwt.sign(data, JWT_secret);
     res.json({success : true,token});
-    console.log(token);
+    // console.log(token);
   } catch (error) {
     console.log(error)
     res.json({ success,error: error.message });
@@ -94,7 +95,7 @@ body('password', 'please enter atleast 4 length password').isLength({ min: 1 })]
 
     res.send({ success : true, authToken });
 
-    console.log(authToken);
+    // console.log(authToken);
 
   } catch (error) {
     console.log(error)
